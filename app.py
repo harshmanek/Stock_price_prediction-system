@@ -37,3 +37,34 @@ plt.plot(df.Date,ma100, 'red',label='SMA100')
 plt.plot(df.Date,ma200,'yellow',label='SMA200')
 plt.legend(loc='upper left')
 st.pyplot(fig)
+
+
+#splitting data into training and testing
+
+data_training  = pd.DataFrame(df['Close'][0:int(len(df)*0.7)])
+data_testing = pd.DataFrame(df['Close'][int(len(df)*0.7):int(len(df))])
+
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler(feature_range=(0,1))
+
+data_training_array = scaler.fit_transform(data_training)
+
+#loading model
+model = load_model('keras_model2.h5')
+
+#testing
+past_100_days = data_training.tail(100)
+past_100_days = pd.DataFrame(past_100_days)
+
+final_df = pd.concat([past_100_days,data_testing],axis=0)
+
+input_data = scaler.fit_transform(final_df)
+
+x_test = []
+y_test = []
+
+for i in range(100,input_data.shape[0]):
+  x_test.append(input_data[i-100:i])
+  y_test.append(input_data[i,0])
+
+x_test, y_test = np.array(x_test), np.array(y_test)
