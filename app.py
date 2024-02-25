@@ -68,3 +68,10 @@ for i in range(100,input_data.shape[0]):
   y_test.append(input_data[i,0])
 
 x_test, y_test = np.array(x_test), np.array(y_test)
+
+# predictions
+
+y_predicted = model.predict(x_test)
+scalr = scaler.scale_
+y_predicted = y_predicted * (1/scalr)
+y_test= y_test* (1/scalr)
