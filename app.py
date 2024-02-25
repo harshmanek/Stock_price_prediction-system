@@ -75,3 +75,14 @@ y_predicted = model.predict(x_test)
 scalr = scaler.scale_
 y_predicted = y_predicted * (1/scalr)
 y_test= y_test* (1/scalr)
+
+#predicted graph
+st.subheader("Trend Prediction")
+fig = plt.figure(figsize=(12,6))
+plt.plot(y_test,'b',label='Original Price')
+plt.plot(y_predicted,'r',label='Predicted')
+plt.xlabel('time')
+plt.ylabel('price')
+
+plt.legend()
+st.pyplot(fig)
